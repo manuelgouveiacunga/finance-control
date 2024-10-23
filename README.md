@@ -1,8 +1,30 @@
-# React + Vite
+# Finance Control
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web para controle financeiro desenvolvida com React e Vite.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- Vite
+- Tailwind CSS
+- shadcn/ui
+
+## 📋 Pré-requisitos
+
+- Node.js
+- npm
+
+## 🔧 Instalação
+
+```bash
+# Clone este repositório
+git clone https://github.com/seu-usuario/finance-control.git
+
+# Acesse a pasta do projeto
+cd finance-control
+
+# Instale as dependências
+npm install
+
+# Execute a aplicação
+npm run dev
