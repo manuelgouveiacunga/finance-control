@@ -30,7 +30,7 @@ import {
         
         <header className="bg-primary-600 p-6">
           <div className="max-w-6xl mx-auto">
-            <h1 className="text-2xl font-bold text-white">Dashboard Financeiro</h1>
+            <h1 className="text-2xl font-bold text-white text-center">Controlo - Financeiro</h1>
           </div>
         </header>
 
