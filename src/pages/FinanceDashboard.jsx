@@ -1,18 +1,7 @@
-import { 
-    Wallet, 
-    TrendingUp, 
-    TrendingDown, 
-    PieChart,
-    Clock
-  } from 'lucide-react';
-  import { useTransactions } from '../context/TransactionContext';
-  import { NewTransactionDialog } from '../components/NewTransactionDialog';
-  import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-  } from '../components/ui/card';
+import { Wallet, TrendingUp, TrendingDown, PieChart,Clock } from 'lucide-react';
+import { useTransactions } from '../context/TransactionContext';
+import { NewTransactionDialog } from '../components/NewTransactionDialog';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
   
   function FinanceDashboard() {
     const { transactions } = useTransactions();
