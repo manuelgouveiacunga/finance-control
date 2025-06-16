@@ -1,11 +1,14 @@
 import { TransactionProvider } from './context/TransactionContext';
+import { ThemeProvider } from './context/ThemeContext';
 import FinanceDashboard from './pages/FinanceDashboard'; 
 
 function App() {
   return (
-    <TransactionProvider>
-      <FinanceDashboard />
-    </TransactionProvider>
+    <ThemeProvider>
+      <TransactionProvider>
+        <FinanceDashboard />
+      </TransactionProvider>
+    </ThemeProvider>
   );
 }
 
