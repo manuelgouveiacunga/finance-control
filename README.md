@@ -12,6 +12,7 @@ Uma aplicação web para controle financeiro desenvolvida com React e Vite.
 ## 📋 Pré-requisitos
 
 - Node.js
+- yarn
 - npm
 
 ## 🔧 Instalação
@@ -25,6 +26,8 @@ cd finance-control
 
 # Instale as dependências
 npm install
+yarn add
 
 # Execute a aplicação
 npm run dev
+yarn dev
