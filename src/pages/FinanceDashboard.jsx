@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
   
   function FinanceDashboard() {
     const { transactions, removeTransaction } = useTransactions();
-    const { theme, toggleTheme } = useTheme();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState(null);
   
@@ -41,7 +40,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800 transition-all duration-300">
         
-        {/* Header com gradiente melhorado */}
         <header className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900 shadow-xl">
           <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between">
@@ -58,25 +56,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
                   </p>
                 </div>
               </div>
-              {/* Botão de tema - corrigido */}
-              <button
-                onClick={toggleTheme}
-                className="p-3 text-white hover:bg-white/20 rounded-xl transition-all duration-200 backdrop-blur-sm border border-white/20 flex items-center justify-center"
-                title={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
-              >
-                {theme === 'light' ? (
-                  <Moon className="h-6 w-6" />
-                ) : (
-                  <Sun className="h-6 w-6" />
-                )}
-              </button>
             </div>
           </div>
         </header>
 
         <main className="max-w-7xl mx-auto px-6 py-8 -mt-4">
           
-          {/* Cards de resumo com melhor design */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/70">
               <CardHeader className="flex flex-row items-center justify-between pb-3">
@@ -138,7 +123,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
   
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* Lista de transações melhorada */}
             <div className="lg:col-span-2">
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4">
@@ -223,8 +207,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
                 </CardContent>
               </Card>
             </div>
-  
-            {/* Sidebar com estatísticas */}
+            
             <div className="space-y-6">
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between">
