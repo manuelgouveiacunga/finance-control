@@ -1,29 +1,46 @@
 import { useState } from 'react';
 import { useTransactions } from '../context/TransactionContext';
+import { useToast } from '../context/ToastContext';
 import { Plus, X } from 'lucide-react';
 
 export function NewTransactionDialog() {
   const [isOpen, setIsOpen] = useState(false);
-  const { addTransaction } = useTransactions();
+  const { addTransaction, transactions } = useTransactions();
+  const { addToast } = useToast();
   const [formData, setFormData] = useState({
     description: '',
     amount: '',
     type: 'expense',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    category: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Calcular saldo total atual
+    const totalBalance = transactions.reduce((acc, curr) => acc + curr.amount, 0);
+    
+    // Converter valor para número
+    const amountValue = Number(formData.amount);
+    
+    // Validar se é uma despesa e se há saldo suficiente
+    if (formData.type === 'expense' && amountValue > totalBalance) {
+      addToast('Saldo insuficiente para esta despesa!', 'error');
+      return;
+    }
+    
     addTransaction({
       ...formData,
-      amount: formData.type === 'expense' ? -Number(formData.amount) : Number(formData.amount)
+      amount: formData.type === 'expense' ? -amountValue : amountValue
     });
     setIsOpen(false);
     setFormData({
       description: '',
       amount: '',
       type: 'expense',
-      date: new Date().toISOString().split('T')[0]
+      date: new Date().toISOString().split('T')[0],
+      category: ''
     });
   };
 
@@ -102,6 +119,19 @@ export function NewTransactionDialog() {
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Categoria
+                </label>
+                <input
+                  type="text"
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                  placeholder="Ex: Alimentação, Transporte, etc."
                 />
               </div>
 
