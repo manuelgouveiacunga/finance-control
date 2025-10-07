@@ -1,37 +1,50 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const TransactionContext = createContext();
 
 export function TransactionProvider({ children }) {
+  const { currentUser } = useAuth();
+  
   // Função para carregar transações do localStorage
   const loadTransactionsFromStorage = () => {
     try {
-      const savedTransactions = localStorage.getItem('finance-transactions');
-      if (savedTransactions) {
-        return JSON.parse(savedTransactions);
+      if (currentUser) {
+        const savedTransactions = localStorage.getItem(`finance-transactions-${currentUser.email}`);
+        if (savedTransactions) {
+          return JSON.parse(savedTransactions);
+        }
       }
     } catch (error) {
       console.error('Erro ao carregar transações do localStorage:', error);
     }
     
-    // Retorna dados padrão se não houver dados salvos
-    return [
-      { id: 1, description: 'Salário', amount: 5000, type: 'income', date: '2024-03-20' },
-      { id: 2, description: 'Aluguel', amount: -1200, type: 'expense', date: '2024-03-15' },
-      { id: 3, description: 'Supermercado', amount: -500, type: 'expense', date: '2024-03-10' },
-    ];
+    // Retorna array vazio se não houver dados salvos
+    return [];
   };
 
-  const [transactions, setTransactions] = useState(loadTransactionsFromStorage);
+  const [transactions, setTransactions] = useState([]);
 
   // Função para salvar transações no localStorage
   const saveTransactionsToStorage = (transactionsData) => {
     try {
-      localStorage.setItem('finance-transactions', JSON.stringify(transactionsData));
+      if (currentUser) {
+        localStorage.setItem(`finance-transactions-${currentUser.email}`, JSON.stringify(transactionsData));
+      }
     } catch (error) {
       console.error('Erro ao salvar transações no localStorage:', error);
     }
   };
+
+  // useEffect para carregar transações quando o usuário muda
+  useEffect(() => {
+    if (currentUser) {
+      const userTransactions = loadTransactionsFromStorage();
+      setTransactions(userTransactions);
+    } else {
+      setTransactions([]);
+    }
+  }, [currentUser]);
 
   // useEffect para salvar no localStorage sempre que transactions mudar
   useEffect(() => {
@@ -39,13 +52,11 @@ export function TransactionProvider({ children }) {
   }, [transactions]);
 
   const addTransaction = (transaction) => {
-    const currentDate = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
     const newTransactions = [
-      ...transactions, 
-      { 
-        ...transaction, 
-        id: Date.now(),
-        date: currentDate // Data automática
+      ...transactions,
+      {
+        ...transaction,
+        id: Date.now()
       }
     ];
     setTransactions(newTransactions);
@@ -59,15 +70,17 @@ export function TransactionProvider({ children }) {
   // Função adicional para limpar todos os dados (opcional)
   const clearAllTransactions = () => {
     setTransactions([]);
-    localStorage.removeItem('finance-transactions');
+    if (currentUser) {
+      localStorage.removeItem(`finance-transactions-${currentUser.email}`);
+    }
   };
 
   return (
-    <TransactionContext.Provider value={{ 
-      transactions, 
-      addTransaction, 
-      removeTransaction, 
-      clearAllTransactions 
+    <TransactionContext.Provider value={{
+      transactions,
+      addTransaction,
+      removeTransaction,
+      clearAllTransactions
     }}>
       {children}
     </TransactionContext.Provider>
