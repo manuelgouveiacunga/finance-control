@@ -3,32 +3,44 @@ import { useTheme } from './context/ThemeContext';
 import { useAuth } from './context/AuthContext';
 import FinanceDashboard from './pages/FinanceDashboard';
 import AuthPage from './pages/AuthPage';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function AppContent() {
+function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Carregando...</div>;
   }
 
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/auth" />} />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/dashboard" element={currentUser ? <FinanceDashboard /> : <Navigate to="/auth" />} />
-      <Route path="*" element={<Navigate to="/auth" />} />
-    </Routes>
-  );
+  return currentUser ? children : <Navigate to="/auth" replace />;
 }
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/auth" replace />
+  },
+  {
+    path: "/auth",
+    element: <AuthPage />
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <FinanceDashboard />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "*",
+    element: <Navigate to="/auth" replace />
+  }
+]);
+
 function App() {
-  return (
-    <Router>
-      <AppContent />
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
