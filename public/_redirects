@@ -1,1 +1,6 @@
+# Handle client-side routing
 /*    /index.html   200
+
+# Specific routes for better handling
+/auth    /index.html   200
+/dashboard    /index.html   200
