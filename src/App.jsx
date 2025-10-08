@@ -15,6 +15,7 @@ function AppContent() {
 
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/auth" />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/dashboard" element={currentUser ? <FinanceDashboard /> : <Navigate to="/auth" />} />
       <Route path="*" element={<Navigate to="/auth" />} />

@@ -9,6 +9,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
+  server: {
+    historyApiFallback: {
+      index: '/index.html'
+    }
+  },
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react', 'clsx', 'tailwind-merge']
   },
