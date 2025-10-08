@@ -32,13 +32,14 @@ const Login = ({ onSwitchToRegister, onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 uppercase">
-            Já é hora de cuidar do teu kumbu, faz login!
-          </h2>
-        </div>
+    <div className="min-h-screen flex bg-gray-50">
+      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 uppercase">
+              Já é hora de cuidar do teu kumbu, faz login!
+            </h2>
+          </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="space-y-4">
@@ -150,7 +151,28 @@ const Login = ({ onSwitchToRegister, onLogin }) => {
               Inscreva-se
             </button>
           </p>
+          </div>
         </div>
+      </div>
+      
+      {/* Coluna direita - Banner */}
+      <div className="hidden lg:flex flex-1 items-center justify-center bg-indigo-50 p-8">
+        <div className="max-w-lg w-full">
+          <img
+            src="/public/banner_finance.png"
+            alt="banner"
+            className="w-full h-auto object-contain"
+          />
+        </div>
+      </div>
+      
+      {/* Banner para dispositivos móveis - aparece no topo */}
+      <div className="lg:hidden absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
+        <img
+          src="/public/banner_finance.png"
+          alt="banner"
+          className="h-16 w-auto object-contain"
+        />
       </div>
     </div>
   );
