@@ -25,20 +25,5 @@ services:
         value: nosniff
     routes:
       - type: rewrite
-        source: "/assets/*"
-        destination: "/assets/*"
-      - type: rewrite
-        source: "/favicon.ico"
-        destination: "/favicon.ico"
-      - type: rewrite
-        source: "/vite.svg"
-        destination: "/vite.svg"
-      - type: rewrite
-        source: "/*.png"
-        destination: "/*.png"
-      - type: rewrite
-        source: "/*.svg"
-        destination: "/*.svg"
-      - type: rewrite
-        source: "/*"
-        destination: "/index.html"
+        source: /*
+        destination: /index.html
