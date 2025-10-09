@@ -25,7 +25,6 @@ export default defineConfig({
         manualChunks: undefined
       }
     },
-    // Ensure proper handling of index.html for SPA
     copyPublicDir: true
   },
   publicDir: 'public'

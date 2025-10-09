@@ -2,14 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Variáveis CSS para cores personalizadas */
 :root {
   --primary-50: #eff6ff;
   --primary-100: #dbeafe;
@@ -23,7 +21,6 @@
   --primary-900: #1e3a8a;
 }
 
-/* Estilos base */
 html {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   line-height: 1.5;
@@ -42,20 +39,17 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Tema escuro */
 .dark body {
   background-color: #0f172a;
   color: #f1f5f9;
 }
 
-/* Estilos básicos para a aplicação */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* Scrollbar personalizada */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -72,7 +66,6 @@ body {
   @apply bg-gray-400 dark:bg-gray-500;
 }
 
-/* Classes utilitárias personalizadas */
 @layer utilities {
   .text-primary {
     color: var(--primary-600);
@@ -95,7 +88,6 @@ body {
   }
 }
 
-/* Componentes personalizados */
 @layer components {
   .card {
     @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700;
@@ -114,7 +106,6 @@ body {
   }
 }
 
-/* Animações personalizadas */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -145,26 +136,22 @@ body {
   animation: slideIn 0.3s ease-out;
 }
 
-/* Transições suaves para mudança de tema */
 * {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
 
-/* Estilos para foco acessível */
 .focus-visible:focus {
   @apply outline-none ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-900;
 }
 
-/* Melhorias para dispositivos móveis */
 @media (max-width: 768px) {
   .container {
     @apply px-4;
   }
 }
 
-/* Responsividade para telas muito pequenas (320px+) */
 @media (max-width: 480px) {
   .modal-content {
     @apply mx-2 my-4;
@@ -181,12 +168,10 @@ body {
   
   .input-mobile {
     @apply text-base py-3;
-    /* Previne zoom no iOS */
     font-size: 16px !important;
   }
 }
 
-/* Garantir que modais tenham prioridade máxima */
 .modal-overlay {
   z-index: 99999 !important;
   position: fixed !important;
@@ -204,7 +189,6 @@ body {
   will-change: transform !important;
 }
 
-/* Prevenir scroll do body quando modal está aberto */
 body.modal-open {
   overflow: hidden !important;
   position: fixed !important;
@@ -212,18 +196,15 @@ body.modal-open {
   height: 100% !important;
 }
 
-/* Forçar contexto de empilhamento para modais */
 .modal-overlay,
 .modal-content {
   isolation: isolate !important;
 }
 
-/* Garantir que nenhum elemento interfira com modais */
 .modal-overlay ~ * {
   z-index: 1 !important;
 }
 
-/* Breakpoint personalizado para telas extra pequenas */
 @media (max-width: 375px) {
   .xs\:hidden {
     display: none !important;
@@ -234,7 +215,6 @@ body.modal-open {
   }
 }
 
-/* Estilos para impressão */
 @media print {
   .no-print {
     display: none !important;

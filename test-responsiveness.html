@@ -94,7 +94,6 @@
             </ol>
         </div>
         
-        <!-- Mobile 320px -->
         <div class="viewport-simulator mobile-320">
             <div class="device-header">📱 Mobile 320px (iPhone SE)</div>
             <div class="device-frame">
@@ -102,15 +101,13 @@
             </div>
         </div>
         
-        <!-- Mobile 375px -->
         <div class="viewport-simulator mobile-375">
             <div class="device-header">📱 Mobile 375px (iPhone 6/7/8)</div>
             <div class="device-frame">
                 <iframe src="http://localhost:5173" title="Mobile 375px view"></iframe>
             </div>
         </div>
-        
-        <!-- Tablet 768px -->
+
         <div class="viewport-simulator tablet-768">
             <div class="device-header">📱 Tablet 768px (iPad Portrait)</div>
             <div class="device-frame">
@@ -118,7 +115,6 @@
             </div>
         </div>
         
-        <!-- Desktop 1024px -->
         <div class="viewport-simulator desktop-1024">
             <div class="device-header">💻 Desktop 1024px</div>
             <div class="device-frame">
@@ -128,15 +124,13 @@
     </div>
     
     <script>
-        // Adicionar funcionalidade para redimensionar iframes
         document.addEventListener('DOMContentLoaded', function() {
             const simulators = document.querySelectorAll('.viewport-simulator');
             
             simulators.forEach(simulator => {
                 const iframe = simulator.querySelector('iframe');
                 const deviceClass = simulator.classList[1];
-                
-                // Definir largura do iframe baseado na classe do dispositivo
+
                 switch(deviceClass) {
                     case 'mobile-320':
                         iframe.style.width = '320px';

@@ -6,16 +6,15 @@ export function ReportFilters({ onFiltersChange, transactions }) {
   const [filters, setFilters] = useState({
     startDate: '',
     endDate: '',
-    transactionType: 'all', // 'all', 'income', 'expense'
+    transactionType: 'all',
     minAmount: '',
     maxAmount: '',
     category: 'all'
   });
 
-  // Extrair categorias únicas das transações
   const categories = [...new Set(
     transactions
-      .filter(t => t.category && t.amount < 0) // Apenas despesas têm categorias
+      .filter(t => t.category && t.amount < 0)
       .map(t => t.category)
   )];
 
@@ -75,7 +74,6 @@ export function ReportFilters({ onFiltersChange, transactions }) {
           </div>
         </div>
 
-        {/* Tipo de Transação */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             <Tag className="h-4 w-4 inline mr-1" />
@@ -92,7 +90,6 @@ export function ReportFilters({ onFiltersChange, transactions }) {
           </select>
         </div>
 
-        {/* Categoria (apenas para despesas) */}
         {categories.length > 0 && (
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -112,7 +109,6 @@ export function ReportFilters({ onFiltersChange, transactions }) {
           </div>
         )}
 
-        {/* Filtros de Valor */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -142,7 +138,6 @@ export function ReportFilters({ onFiltersChange, transactions }) {
           </div>
         </div>
 
-        {/* Botão para limpar filtros */}
         <div className="pt-4 border-t border-gray-200 dark:border-gray-600">
           <button
             onClick={clearFilters}
