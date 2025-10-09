@@ -4,6 +4,8 @@ import { useAuth } from './context/AuthContext';
 import FinanceDashboard from './pages/FinanceDashboard';
 import AuthPage from './pages/AuthPage';
 import ReportsPage from './pages/ReportsPage';
+import NotFoundPage from './pages/NotFoundPage';
+import LoadingSpinner from './components/LoadingSpinner';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +13,7 @@ function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Carregando...</div>;
+    return <LoadingSpinner message="Verificando autenticação..." />;
   }
 
   return currentUser ? children : <Navigate to="/auth" replace />;
@@ -44,7 +46,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <Navigate to="/auth" replace />
+    element: <NotFoundPage />
   }
 ]);
 
