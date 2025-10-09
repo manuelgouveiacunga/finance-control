@@ -6,7 +6,6 @@ const TransactionContext = createContext();
 export function TransactionProvider({ children }) {
   const { currentUser } = useAuth();
   
-  // Função para carregar transações do localStorage
   const loadTransactionsFromStorage = () => {
     try {
       if (currentUser) {
@@ -19,13 +18,11 @@ export function TransactionProvider({ children }) {
       console.error('Erro ao carregar transações do localStorage:', error);
     }
     
-    // Retorna array vazio se não houver dados salvos
     return [];
   };
 
   const [transactions, setTransactions] = useState([]);
 
-  // Função para salvar transações no localStorage
   const saveTransactionsToStorage = (transactionsData) => {
     try {
       if (currentUser) {
@@ -36,7 +33,6 @@ export function TransactionProvider({ children }) {
     }
   };
 
-  // useEffect para carregar transações quando o usuário muda
   useEffect(() => {
     if (currentUser) {
       const userTransactions = loadTransactionsFromStorage();
@@ -45,8 +41,6 @@ export function TransactionProvider({ children }) {
       setTransactions([]);
     }
   }, [currentUser]);
-
-  // useEffect para salvar no localStorage sempre que transactions mudar
   useEffect(() => {
     saveTransactionsToStorage(transactions);
   }, [transactions]);
@@ -67,7 +61,6 @@ export function TransactionProvider({ children }) {
     setTransactions(newTransactions);
   };
 
-  // Função adicional para limpar todos os dados (opcional)
   const clearAllTransactions = () => {
     setTransactions([]);
     if (currentUser) {

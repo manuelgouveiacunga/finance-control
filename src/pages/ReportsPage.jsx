@@ -93,7 +93,6 @@ function ReportsPage() {
     });
   }, [transactions, filters]);
 
-  // Cálculos financeiros
   const financialSummary = useMemo(() => {
     const totalBalance = filteredTransactions.reduce((acc, curr) => acc + curr.amount, 0);
     const totalIncome = filteredTransactions
@@ -121,7 +120,6 @@ function ReportsPage() {
     };
   }, [filteredTransactions]);
 
-  // Dados para gráfico de distribuição de despesas
   const expenseDistribution = useMemo(() => {
     const categories = {};
     
@@ -139,7 +137,6 @@ function ReportsPage() {
     }));
   }, [filteredTransactions, financialSummary.totalExpenses]);
 
-  // Dados para gráfico de fluxo mensal
   const monthlyFlow = useMemo(() => {
     const monthlyData = {};
     
@@ -169,7 +166,6 @@ function ReportsPage() {
     return Object.values(monthlyData).sort((a, b) => a.month.localeCompare(b.month));
   }, [filteredTransactions]);
 
-  // Função para gerar PDF
   const generatePDF = async () => {
     setIsGeneratingPDF(true);
     
@@ -178,17 +174,15 @@ function ReportsPage() {
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       
-      // Cabeçalho
       pdf.setFontSize(20);
       pdf.setTextColor(59, 130, 246); // blue-600
       pdf.text('Relatório Financeiro', pageWidth / 2, 20, { align: 'center' });
       
       pdf.setFontSize(12);
-      pdf.setTextColor(107, 114, 128); // gray-500
+      pdf.setTextColor(107, 114, 128);
       pdf.text(`Gerado em: ${format(new Date(), 'dd/MM/yyyy HH:mm', { locale: ptBR })}`, pageWidth / 2, 30, { align: 'center' });
       pdf.text(`Usuário: ${currentUser?.name || currentUser?.email}`, pageWidth / 2, 37, { align: 'center' });
       
-      // Período do relatório
       let periodText = 'Período: ';
       if (filters.startDate && filters.endDate) {
         periodText += `${format(parseISO(filters.startDate), 'dd/MM/yyyy')} - ${format(parseISO(filters.endDate), 'dd/MM/yyyy')}`;
@@ -203,14 +197,13 @@ function ReportsPage() {
       
       let yPosition = 60;
       
-      // Resumo Financeiro
       pdf.setFontSize(16);
-      pdf.setTextColor(31, 41, 55); // gray-800
+      pdf.setTextColor(31, 41, 55);
       pdf.text('Resumo Financeiro', 20, yPosition);
       yPosition += 15;
       
       pdf.setFontSize(12);
-      pdf.setTextColor(75, 85, 99); // gray-600
+      pdf.setTextColor(75, 85, 99);
       
       const summaryData = [
         ['Saldo Total:', `Kz ${financialSummary.totalBalance.toLocaleString('pt-BR')}`],
@@ -231,7 +224,6 @@ function ReportsPage() {
       
       yPosition += 10;
       
-      // Distribuição de Despesas
       if (expenseDistribution.length > 0) {
         pdf.setFontSize(16);
         pdf.setTextColor(31, 41, 55);
@@ -249,14 +241,12 @@ function ReportsPage() {
         
         yPosition += 10;
       }
-      
-      // Nova página se necessário
+
       if (yPosition > pageHeight - 50) {
         pdf.addPage();
         yPosition = 20;
       }
-      
-      // Lista de Transações
+
       pdf.setFontSize(16);
       pdf.setTextColor(31, 41, 55);
       pdf.text('Transações Detalhadas', 20, yPosition);
@@ -265,18 +255,16 @@ function ReportsPage() {
       pdf.setFontSize(10);
       pdf.setTextColor(75, 85, 99);
       
-      // Cabeçalho da tabela
       pdf.text('Data', 25, yPosition);
       pdf.text('Descrição', 55, yPosition);
       pdf.text('Categoria', 120, yPosition);
       pdf.text('Valor', 160, yPosition);
       yPosition += 8;
-      
-      // Linha separadora
+
       pdf.line(20, yPosition - 2, pageWidth - 20, yPosition - 2);
       yPosition += 5;
       
-      filteredTransactions.slice(0, 50).forEach(transaction => { // Limitar a 50 transações
+      filteredTransactions.slice(0, 50).forEach(transaction => {
         if (yPosition > pageHeight - 20) {
           pdf.addPage();
           yPosition = 20;
@@ -292,15 +280,14 @@ function ReportsPage() {
         pdf.text(date, 25, yPosition);
         pdf.text(description, 55, yPosition);
         pdf.text(category, 120, yPosition);
-        
-        // Cor do valor baseada no tipo
+
         if (transaction.amount > 0) {
-          pdf.setTextColor(34, 197, 94); // green-500
+          pdf.setTextColor(34, 197, 94); 
         } else {
-          pdf.setTextColor(239, 68, 68); // red-500
+          pdf.setTextColor(239, 68, 68);
         }
         pdf.text(amount, 160, yPosition);
-        pdf.setTextColor(75, 85, 99); // Voltar para gray-600
+        pdf.setTextColor(75, 85, 99);
         
         yPosition += 7;
       });
@@ -311,12 +298,10 @@ function ReportsPage() {
         pdf.text(`... e mais ${filteredTransactions.length - 50} transações`, 25, yPosition);
       }
       
-      // Rodapé
       pdf.setFontSize(8);
-      pdf.setTextColor(156, 163, 175); // gray-400
+      pdf.setTextColor(156, 163, 175);
       pdf.text('Relatório gerado pelo Sistema de Controlo Financeiro', pageWidth / 2, pageHeight - 10, { align: 'center' });
       
-      // Salvar PDF
       const fileName = `relatorio-financeiro-${format(new Date(), 'yyyy-MM-dd-HHmm')}.pdf`;
       pdf.save(fileName);
       
@@ -375,9 +360,7 @@ function ReportsPage() {
             />
           </div>
 
-          {/* Conteúdo Principal */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Cards de Resumo */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -448,9 +431,7 @@ function ReportsPage() {
               </Card>
             </div>
 
-            {/* Gráficos */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Fluxo Mensal */}
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader>
                   <CardTitle className="dark:text-white flex items-center space-x-2">
@@ -473,7 +454,6 @@ function ReportsPage() {
                 </CardContent>
               </Card>
 
-              {/* Distribuição de Despesas */}
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader>
                   <CardTitle className="dark:text-white flex items-center space-x-2">
@@ -505,8 +485,7 @@ function ReportsPage() {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Estatísticas Detalhadas */}
+            
             <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
               <CardHeader>
                 <CardTitle className="dark:text-white">Estatísticas Detalhadas</CardTitle>

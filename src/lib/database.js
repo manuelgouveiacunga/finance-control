@@ -1,4 +1,3 @@
-// src/lib/database.js
 import { openDB } from 'idb';
 
 const DB_NAME = 'FinanceControlDB';
