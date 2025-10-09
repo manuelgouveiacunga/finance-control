@@ -3,6 +3,7 @@ import { useTheme } from './context/ThemeContext';
 import { useAuth } from './context/AuthContext';
 import FinanceDashboard from './pages/FinanceDashboard';
 import AuthPage from './pages/AuthPage';
+import ReportsPage from './pages/ReportsPage';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <FinanceDashboard />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/reports",
+    element: (
+      <ProtectedRoute>
+        <ReportsPage />
       </ProtectedRoute>
     )
   },

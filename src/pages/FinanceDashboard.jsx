@@ -1,10 +1,11 @@
-import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User, FileText } from 'lucide-react';
 import { useState } from 'react';
 import { useTransactions } from '../context/TransactionContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { NewTransactionDialog } from '../components/NewTransactionDialog';
 import { ModalCanceledTransaction } from '../components/ModalCanceledTransaction';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import {
   BarChart,
@@ -23,6 +24,7 @@ import {
 function FinanceDashboard() {
   const { transactions, removeTransaction } = useTransactions();
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
 
@@ -34,7 +36,6 @@ function FinanceDashboard() {
     .filter(t => t.amount < 0)
     .reduce((acc, curr) => acc + curr.amount, 0));
 
-  // Preparar dados para o gráfico de barras (últimos 30 dias)
   const getLast30Days = () => {
     const days = [];
     const today = new Date();
@@ -68,8 +69,7 @@ function FinanceDashboard() {
     
     return days;
   };
-
-  // Preparar dados para o gráfico de pizza (categorias)
+  
   const preparePieData = () => {
     const categories = {};
     
@@ -137,6 +137,13 @@ function FinanceDashboard() {
                 <User className="h-5 w-5" />
                 <span className="text-sm sm:text-base">{currentUser?.name || currentUser?.email}</span>
               </div>
+              <button
+                onClick={() => navigate('/reports')}
+                className="flex items-center space-x-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 text-sm sm:text-base"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Relatórios</span>
+              </button>
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 text-sm sm:text-base"
