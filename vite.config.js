@@ -14,6 +14,11 @@ export default defineConfig({
       index: '/index.html'
     }
   },
+  preview: {
+    historyApiFallback: {
+      index: '/index.html'
+    }
+  },
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react', 'clsx', 'tailwind-merge']
   },
