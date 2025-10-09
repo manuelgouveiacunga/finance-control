@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Responsividade - Finance Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .viewport-simulator {
+            background: white;
+            border: 2px solid #333;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .device-header {
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+        
+        .device-frame {
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .mobile-320 { width: 320px; }
+        .mobile-375 { width: 375px; }
+        .tablet-768 { width: 768px; }
+        .desktop-1024 { width: 1024px; }
+        
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h2 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Teste de Responsividade - Formulário Nova Transação</h1>
+        
+        <div class="instructions">
+            <h2>Instruções para Teste</h2>
+            <p>Este arquivo permite testar a responsividade do formulário "Nova Transação" em diferentes tamanhos de tela:</p>
+            <ul>
+                <li><strong>Mobile 320px:</strong> Tela muito pequena (iPhone SE, etc.)</li>
+                <li><strong>Mobile 375px:</strong> Tela pequena padrão (iPhone 6/7/8, etc.)</li>
+                <li><strong>Tablet 768px:</strong> Tablet em modo retrato</li>
+                <li><strong>Desktop 1024px:</strong> Tela de desktop pequena</li>
+            </ul>
+            <p><strong>Como testar:</strong></p>
+            <ol>
+                <li>Certifique-se de que o servidor de desenvolvimento está rodando (npm run dev)</li>
+                <li>Abra este arquivo no navegador</li>
+                <li>Clique no botão "Nova Transação" em cada simulador</li>
+                <li>Verifique se os botões "Adicionar" e "Cancelar" estão visíveis e funcionais</li>
+                <li>Teste o preenchimento do formulário em cada tamanho</li>
+            </ol>
+        </div>
+        
+        <!-- Mobile 320px -->
+        <div class="viewport-simulator mobile-320">
+            <div class="device-header">📱 Mobile 320px (iPhone SE)</div>
+            <div class="device-frame">
+                <iframe src="http://localhost:5173" title="Mobile 320px view"></iframe>
+            </div>
+        </div>
+        
+        <!-- Mobile 375px -->
+        <div class="viewport-simulator mobile-375">
+            <div class="device-header">📱 Mobile 375px (iPhone 6/7/8)</div>
+            <div class="device-frame">
+                <iframe src="http://localhost:5173" title="Mobile 375px view"></iframe>
+            </div>
+        </div>
+        
+        <!-- Tablet 768px -->
+        <div class="viewport-simulator tablet-768">
+            <div class="device-header">📱 Tablet 768px (iPad Portrait)</div>
+            <div class="device-frame">
+                <iframe src="http://localhost:5173" title="Tablet 768px view"></iframe>
+            </div>
+        </div>
+        
+        <!-- Desktop 1024px -->
+        <div class="viewport-simulator desktop-1024">
+            <div class="device-header">💻 Desktop 1024px</div>
+            <div class="device-frame">
+                <iframe src="http://localhost:5173" title="Desktop 1024px view"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Adicionar funcionalidade para redimensionar iframes
+        document.addEventListener('DOMContentLoaded', function() {
+            const simulators = document.querySelectorAll('.viewport-simulator');
+            
+            simulators.forEach(simulator => {
+                const iframe = simulator.querySelector('iframe');
+                const deviceClass = simulator.classList[1];
+                
+                // Definir largura do iframe baseado na classe do dispositivo
+                switch(deviceClass) {
+                    case 'mobile-320':
+                        iframe.style.width = '320px';
+                        break;
+                    case 'mobile-375':
+                        iframe.style.width = '375px';
+                        break;
+                    case 'tablet-768':
+                        iframe.style.width = '768px';
+                        break;
+                    case 'desktop-1024':
+                        iframe.style.width = '1024px';
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
