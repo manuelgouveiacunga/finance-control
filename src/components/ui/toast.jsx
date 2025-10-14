@@ -29,10 +29,10 @@ const Toast = ({ message, type = 'info', duration = 5000, onClose }) => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 animate-fade-in">
+    <div className="fixed top-4 right-4 animate-fade-in" style={{ zIndex: 100002 }}>
       <div className={`${getTypeStyles()} px-6 py-4 rounded-lg shadow-lg flex items-center`}>
         <span className="text-sm font-medium">{message}</span>
-        <button 
+        <button
           onClick={() => {
             setVisible(false);
             if (onClose) onClose();
