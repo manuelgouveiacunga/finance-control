@@ -154,7 +154,11 @@ const Login = ({ onSwitchToRegister, onLogin }) => {
           </div>
         </div>
       </div>
+      
+      {/* Coluna direita - Banner */}
+      <div className="hidden lg:flex flex-1 items-center justify-center bg-indigo-50 p-8">
       </div>
+
     </div>
   );
 };
