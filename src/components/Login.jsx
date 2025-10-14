@@ -154,25 +154,6 @@ const Login = ({ onSwitchToRegister, onLogin }) => {
           </div>
         </div>
       </div>
-      
-      {/* Coluna direita - Banner */}
-      <div className="hidden lg:flex flex-1 items-center justify-center bg-indigo-50 p-8">
-        <div className="max-w-lg w-full">
-          <img
-            src="/public/banner_finance.png"
-            alt="banner"
-            className="w-full h-auto object-contain"
-          />
-        </div>
-      </div>
-      
-      {/* Banner para dispositivos móveis - aparece no topo */}
-      <div className="lg:hidden absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
-        <img
-          src="/public/banner_finance.png"
-          alt="banner"
-          className="h-16 w-auto object-contain"
-        />
       </div>
     </div>
   );
