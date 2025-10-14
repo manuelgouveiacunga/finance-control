@@ -370,18 +370,20 @@ function ReportsPage() {
               <button
                 onClick={previewPDF}
                 disabled={isGeneratingPDF || filteredTransactions.length === 0}
-                className="flex items-center space-x-2 px-6 py-3 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
-                <Eye className="h-5 w-5" />
-                <span>Visualizar PDF</span>
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Visualizar PDF</span>
+                <span className="sm:hidden">Visualizar</span>
               </button>
               <button
                 onClick={generatePDF}
                 disabled={isGeneratingPDF || filteredTransactions.length === 0}
-                className="flex items-center space-x-2 px-6 py-3 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
-                <Download className="h-5 w-5" />
-                <span>{isGeneratingPDF ? 'Gerando...' : 'Exportar PDF'}</span>
+                <Download className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Exportar PDF</span>
+                <span className="sm:hidden">Exportar</span>
               </button>
             </div>
           </div>
@@ -390,10 +392,11 @@ function ReportsPage() {
 
       {/* PDF Preview Modal */}
       {showPDFPreview && pdfData && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[90vh] flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b dark:border-gray-700 shrink-0">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                 Pré-visualização do Relatório
               </h2>
               <button
@@ -404,82 +407,83 @@ function ReportsPage() {
               </button>
             </div>
             
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-              <div ref={pdfPreviewRef} className="bg-white p-8 border border-gray-200 rounded-lg">
+            {/* Content - Scrollable Area */}
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4">
+              <div ref={pdfPreviewRef} className="bg-white dark:bg-gray-900 p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 rounded-lg min-w-0">
                 {/* Header */}
-                <div className="text-center mb-8">
-                  <h1 className="text-2xl font-bold text-blue-600 mb-2">
+                <div className="text-center mb-6">
+                  <h1 className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                     {pdfData.title}
                   </h1>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">
                     Gerado em: {pdfData.generatedAt}
                   </p>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">
                     Usuário: {pdfData.user}
                   </p>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">
                     Período: {pdfData.period}
                   </p>
                 </div>
 
                 {/* Financial Summary */}
-                <div className="mb-8">
-                  <h2 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">
+                <div className="mb-6">
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
                     Resumo Financeiro
                   </h2>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Saldo Total:</span>
-                      <span className="font-medium">Kz {pdfData.financialSummary.totalBalance.toLocaleString('pt-BR')}</span>
+                      <span className="text-gray-800 dark:text-gray-200">Saldo Total:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">Kz {pdfData.financialSummary.totalBalance.toLocaleString('pt-BR')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Total de Receitas:</span>
-                      <span className="font-medium text-green-600">Kz {pdfData.financialSummary.totalIncome.toLocaleString('pt-BR')}</span>
+                      <span className="text-gray-800 dark:text-gray-200">Total de Receitas:</span>
+                      <span className="font-medium text-green-600 dark:text-green-400">Kz {pdfData.financialSummary.totalIncome.toLocaleString('pt-BR')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Total de Despesas:</span>
-                      <span className="font-medium text-red-600">Kz {pdfData.financialSummary.totalExpenses.toLocaleString('pt-BR')}</span>
+                      <span className="text-gray-800 dark:text-gray-200">Total de Despesas:</span>
+                      <span className="font-medium text-red-600 dark:text-red-400">Kz {pdfData.financialSummary.totalExpenses.toLocaleString('pt-BR')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Número de Receitas:</span>
-                      <span className="font-medium">{pdfData.financialSummary.incomeTransactions} transações</span>
+                      <span className="text-gray-800 dark:text-gray-200">Número de Receitas:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{pdfData.financialSummary.incomeTransactions} transações</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Número de Despesas:</span>
-                      <span className="font-medium">{pdfData.financialSummary.expenseTransactions} transações</span>
+                      <span className="text-gray-800 dark:text-gray-200">Número de Despesas:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{pdfData.financialSummary.expenseTransactions} transações</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Receita Média:</span>
-                      <span className="font-medium">Kz {pdfData.financialSummary.averageIncome.toLocaleString('pt-BR')}</span>
+                      <span className="text-gray-800 dark:text-gray-200">Receita Média:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">Kz {pdfData.financialSummary.averageIncome.toLocaleString('pt-BR')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Despesa Média:</span>
-                      <span className="font-medium">Kz {pdfData.financialSummary.averageExpense.toLocaleString('pt-BR')}</span>
+                      <span className="text-gray-800 dark:text-gray-200">Despesa Média:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">Kz {pdfData.financialSummary.averageExpense.toLocaleString('pt-BR')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Taxa de Poupança:</span>
-                      <span className="font-medium">{pdfData.financialSummary.savingsRate.toFixed(1)}%</span>
+                      <span className="text-gray-800 dark:text-gray-200">Taxa de Poupança:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{pdfData.financialSummary.savingsRate.toFixed(1)}%</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Expense Distribution */}
                 {pdfData.expenseDistribution.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">
+                  <div className="mb-6">
+                    <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
                       Distribuição de Despesas por Categoria
                     </h2>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs sm:text-sm">
                       {pdfData.expenseDistribution.map((category, index) => (
                         <div key={category.name} className="flex justify-between items-center">
-                          <div className="flex items-center">
+                          <div className="flex items-center min-w-0 flex-1">
                             <div 
-                              className="w-3 h-3 rounded-full mr-2"
+                              className="w-3 h-3 rounded-full mr-2 shrink-0"
                               style={{ backgroundColor: COLORS[index % COLORS.length] }}
                             ></div>
-                            <span className="text-gray-600">{category.name}</span>
+                            <span className="text-gray-800 dark:text-gray-200 truncate">{category.name}</span>
                           </div>
-                          <span className="font-medium">
+                          <span className="font-medium text-gray-900 dark:text-white shrink-0 ml-2">
                             Kz {category.value.toLocaleString('pt-BR')} ({category.percentage}%)
                           </span>
                         </div>
@@ -490,63 +494,72 @@ function ReportsPage() {
 
                 {/* Transactions */}
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 border-b pb-2 border-gray-200 dark:border-gray-700">
                     Transações Detalhadas
                   </h2>
-                  <div className="text-sm">
-                    <div className="grid grid-cols-12 gap-2 font-medium border-b pb-2 mb-2">
-                      <div className="col-span-3">Data</div>
-                      <div className="col-span-4">Descrição</div>
-                      <div className="col-span-3">Categoria</div>
-                      <div className="col-span-2 text-right">Valor</div>
+                  <div className="text-xs sm:text-sm overflow-x-auto">
+                    <div className="min-w-[500px]">
+                      {/* Header Row */}
+                      <div className="grid grid-cols-12 gap-1 sm:gap-2 font-medium border-b pb-2 mb-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
+                        <div className="col-span-3">Data</div>
+                        <div className="col-span-4">Descrição</div>
+                        <div className="col-span-3">Categoria</div>
+                        <div className="col-span-2 text-right">Valor</div>
+                      </div>
+                      
+                      {/* Transactions Rows */}
+                      {pdfData.transactions.map((transaction, index) => (
+                        <div key={index} className="grid grid-cols-12 gap-1 sm:gap-2 py-1 border-b border-gray-100 dark:border-gray-800">
+                          <div className="col-span-3 text-xs text-gray-800 dark:text-gray-200">
+                            {format(new Date(transaction.date), 'dd/MM/yyyy')}
+                          </div>
+                          <div className="col-span-4 truncate text-gray-800 dark:text-gray-200">
+                            {transaction.description.length > 20 
+                              ? transaction.description.substring(0, 20) + '...'
+                              : transaction.description
+                            }
+                          </div>
+                          <div className="col-span-3 truncate text-gray-800 dark:text-gray-200">
+                            {transaction.category || 'N/A'}
+                          </div>
+                          <div className={`col-span-2 text-right font-medium text-xs ${
+                            transaction.amount > 0 
+                              ? 'text-green-600 dark:text-green-400' 
+                              : 'text-red-600 dark:text-red-400'
+                          }`}>
+                            {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString('pt-BR')} Kz
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {pdfData.totalTransactions > 50 && (
+                        <div className="text-center text-gray-600 dark:text-gray-400 mt-3 text-xs">
+                          ... e mais {pdfData.totalTransactions - 50} transações
+                        </div>
+                      )}
                     </div>
-                    {pdfData.transactions.map((transaction, index) => (
-                      <div key={index} className="grid grid-cols-12 gap-2 py-1 border-b">
-                        <div className="col-span-3">
-                          {format(new Date(transaction.date), 'dd/MM/yyyy')}
-                        </div>
-                        <div className="col-span-4">
-                          {transaction.description.length > 30 
-                            ? transaction.description.substring(0, 30) + '...'
-                            : transaction.description
-                          }
-                        </div>
-                        <div className="col-span-3">
-                          {transaction.category || 'N/A'}
-                        </div>
-                        <div className={`col-span-2 text-right font-medium ${
-                          transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
-                        }`}>
-                          {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString('pt-BR')} Kz
-                        </div>
-                      </div>
-                    ))}
-                    {pdfData.totalTransactions > 50 && (
-                      <div className="text-center text-gray-500 mt-4">
-                        ... e mais {pdfData.totalTransactions - 50} transações
-                      </div>
-                    )}
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="mt-8 pt-4 border-t text-center text-xs text-gray-500">
+                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-600 dark:text-gray-400">
                   Relatório gerado pelo Sistema de Controlo Financeiro
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end space-x-3 p-6 border-t dark:border-gray-700">
+            {/* Footer Actions */}
+            <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 p-4 border-t dark:border-gray-700 shrink-0">
               <button
                 onClick={() => setShowPDFPreview(false)}
-                className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm sm:text-base"
               >
                 Cancelar
               </button>
               <button
                 onClick={generatePDF}
                 disabled={isGeneratingPDF}
-                className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
               >
                 <Check className="h-4 w-4" />
                 <span>{isGeneratingPDF ? 'Gerando...' : 'Confirmar e Exportar'}</span>
@@ -568,10 +581,10 @@ function ReportsPage() {
 
           <div className="lg:col-span-3 space-y-6">
             {/* ... (resto do conteúdo permanece igual) */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Saldo Total
                   </CardTitle>
                   <Wallet className="h-4 w-4 text-blue-600 dark:text-blue-400" />
@@ -588,7 +601,7 @@ function ReportsPage() {
 
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Receitas
                   </CardTitle>
                   <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -605,7 +618,7 @@ function ReportsPage() {
 
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Despesas
                   </CardTitle>
                   <TrendingDown className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -622,7 +635,7 @@ function ReportsPage() {
 
               <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <CardTitle className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Taxa de Poupança
                   </CardTitle>
                   <PieChart className="h-4 w-4 text-purple-600 dark:text-purple-400" />
@@ -631,7 +644,7 @@ function ReportsPage() {
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">
                     {financialSummary.savingsRate.toFixed(1)}%
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
                     Do total de receitas
                   </p>
                 </CardContent>
@@ -643,7 +656,7 @@ function ReportsPage() {
                 <CardHeader>
                   <CardTitle className="dark:text-white flex items-center space-x-2">
                     <BarChart3 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <span>Fluxo Mensal</span>
+                    <span className="text-gray-900 dark:text-white">Fluxo Mensal</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="h-80">
@@ -665,7 +678,7 @@ function ReportsPage() {
                 <CardHeader>
                   <CardTitle className="dark:text-white flex items-center space-x-2">
                     <PieChart className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <span>Distribuição de Despesas</span>
+                    <span className="text-gray-900 dark:text-white">Distribuição de Despesas</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="h-80">
@@ -695,7 +708,7 @@ function ReportsPage() {
             
             <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
               <CardHeader>
-                <CardTitle className="dark:text-white">Estatísticas Detalhadas</CardTitle>
+                <CardTitle className="text-gray-900 dark:text-white">Estatísticas Detalhadas</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -703,25 +716,25 @@ function ReportsPage() {
                     <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                       Kz {financialSummary.averageIncome.toLocaleString('pt-BR')}
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Receita Média</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">Receita Média</p>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-red-600 dark:text-red-400">
                       Kz {financialSummary.averageExpense.toLocaleString('pt-BR')}
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Despesa Média</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">Despesa Média</p>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                       {filteredTransactions.length}
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Total de Transações</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">Total de Transações</p>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                       {expenseDistribution.length}
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Categorias Ativas</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">Categorias Ativas</p>
                   </div>
                 </div>
               </CardContent>
