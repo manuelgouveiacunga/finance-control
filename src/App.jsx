@@ -6,6 +6,7 @@ import AuthPage from './pages/AuthPage';
 import ReportsPage from './pages/ReportsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import LoadingSpinner from './components/LoadingSpinner';
+import MainLayout from './components/MainLayout';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -18,6 +19,9 @@ function ProtectedRoute({ children }) {
 
   return currentUser ? children : <Navigate to="/auth" replace />;
 }
+
+const AnalyticsPage = () => <h1>Análises</h1>;
+const GoalsPage = () => <h1>Objectivos financeiros</h1>;
 
 const router = createBrowserRouter([
   {
@@ -32,7 +36,9 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <FinanceDashboard />
+        <MainLayout>
+          <FinanceDashboard />
+        </MainLayout>
       </ProtectedRoute>
     )
   },
@@ -40,7 +46,29 @@ const router = createBrowserRouter([
     path: "/reports",
     element: (
       <ProtectedRoute>
-        <ReportsPage />
+        <MainLayout>
+          <ReportsPage />
+        </MainLayout>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/analytics",
+    element: (
+      <ProtectedRoute>
+        <MainLayout>
+          <AnalyticsPage />
+        </MainLayout>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/goals",
+    element: (
+      <ProtectedRoute>
+        <MainLayout>
+          <GoalsPage />
+        </MainLayout>
       </ProtectedRoute>
     )
   },

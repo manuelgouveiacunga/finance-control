@@ -1,12 +1,14 @@
-import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User, FileText } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User, FileText, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useTransactions } from '../context/TransactionContext';
-import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { NewTransactionDialog } from '../components/NewTransactionDialog';
 import { ModalCanceledTransaction } from '../components/ModalCanceledTransaction';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import ChooseTransactionType from '../components/ChooseTransactionType';
+import ReceiptUploadModal from '../components/ReceiptUploadModal';
+import { useToast } from '../context/ToastContext';
 import {
   BarChart,
   Bar,
@@ -24,9 +26,14 @@ import {
 function FinanceDashboard() {
   const { transactions, removeTransaction } = useTransactions();
   const { currentUser, logout } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [isChooseModalOpen, setIsChooseModalOpen] = useState(false);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [initialAmount, setInitialAmount] = useState(null);
 
   const totalBalance = transactions.reduce((acc, curr) => acc + curr.amount, 0);
   const totalIncome = transactions
@@ -108,6 +115,27 @@ function FinanceDashboard() {
   
   const handleLogout = () => {
     logout();
+  };
+
+  const handleChoose = (type) => {
+    setIsChooseModalOpen(false);
+    if (type === 'manual') {
+      setInitialAmount(null);
+      setIsNewTransactionModalOpen(true);
+    } else {
+      setIsReceiptModalOpen(true);
+    }
+  };
+
+  const handleReceiptComplete = (amount) => {
+    setIsReceiptModalOpen(false);
+    setInitialAmount(amount);
+    setIsNewTransactionModalOpen(true);
+  };
+
+  const handleReceiptError = (error) => {
+    setIsReceiptModalOpen(false);
+    addToast(error, 'error');
   };
 
   const chartData = prepareChartData();
@@ -295,7 +323,13 @@ function FinanceDashboard() {
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <NewTransactionDialog />
+                  <button
+                    onClick={() => setIsChooseModalOpen(true)}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
+                  >
+                    <Plus className="h-5 w-5" />
+                    <span>Adicionar Transação</span>
+                  </button>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
@@ -445,6 +479,29 @@ function FinanceDashboard() {
         onConfirm={handleConfirmDelete}
         transaction={transactionToDelete}
       />
+
+      {isChooseModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl">
+            <ChooseTransactionType onChoose={handleChoose} />
+          </div>
+        </div>
+      )}
+
+      <ReceiptUploadModal
+        isOpen={isReceiptModalOpen}
+        onClose={() => setIsReceiptModalOpen(false)}
+        onComplete={handleReceiptComplete}
+        onError={handleReceiptError}
+      />
+
+      {isNewTransactionModalOpen && (
+        <NewTransactionDialog
+          isOpen={isNewTransactionModalOpen}
+          onClose={() => setIsNewTransactionModalOpen(false)}
+          initialAmount={initialAmount}
+        />
+      )}
     </div>
   );
 }
