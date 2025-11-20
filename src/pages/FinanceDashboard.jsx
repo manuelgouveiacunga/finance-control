@@ -1,12 +1,13 @@
-import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User, FileText } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PieChart, Clock, Trash2, Sun, Moon, User, FileText, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useTransactions } from '../context/TransactionContext';
-import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { NewTransactionDialog } from '../components/NewTransactionDialog';
 import { ModalCanceledTransaction } from '../components/ModalCanceledTransaction';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import ChooseTransactionType from '../components/ChooseTransactionType';
+import ReceiptUploadModal from '../components/ReceiptUploadModal';
 import {
   BarChart,
   Bar,
@@ -27,6 +28,10 @@ function FinanceDashboard() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [isChooseModalOpen, setIsChooseModalOpen] = useState(false);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [initialAmount, setInitialAmount] = useState(null);
 
   const totalBalance = transactions.reduce((acc, curr) => acc + curr.amount, 0);
   const totalIncome = transactions
@@ -110,6 +115,22 @@ function FinanceDashboard() {
     logout();
   };
 
+  const handleChoose = (type) => {
+    setIsChooseModalOpen(false);
+    if (type === 'manual') {
+      setInitialAmount(null);
+      setIsNewTransactionModalOpen(true);
+    } else {
+      setIsReceiptModalOpen(true);
+    }
+  };
+
+  const handleReceiptComplete = (amount) => {
+    setIsReceiptModalOpen(false);
+    setInitialAmount(amount);
+    setIsNewTransactionModalOpen(true);
+  };
+
   const chartData = prepareChartData();
   const pieData = preparePieData();
 
@@ -137,13 +158,6 @@ function FinanceDashboard() {
                 <User className="h-5 w-5" />
                 <span className="text-sm sm:text-base">{currentUser?.name || currentUser?.email}</span>
               </div>
-              <button
-                onClick={() => navigate('/reports')}
-                className="flex items-center space-x-2 px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 text-sm sm:text-base"
-              >
-                <FileText className="h-4 w-4" />
-                <span>Relatórios</span>
-              </button>
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-white/10 rounded-lg backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-200 text-sm sm:text-base"
@@ -216,7 +230,7 @@ function FinanceDashboard() {
           </Card>
         </div>
 
-        {/* Gráficos */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <Card className="dark:bg-gray-800/50 dark:border-gray-700/50 backdrop-blur-sm border-0 shadow-lg bg-white/70">
             <CardHeader>
@@ -295,7 +309,13 @@ function FinanceDashboard() {
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <NewTransactionDialog />
+                  <button
+                    onClick={() => setIsChooseModalOpen(true)}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
+                  >
+                    <Plus className="h-5 w-5" />
+                    <span>Adicionar Transação</span>
+                  </button>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
@@ -352,7 +372,7 @@ function FinanceDashboard() {
                                 {transaction.amount > 0 ? 'Receita' : 'Despesa'}
                               </p>
                             </div>
-                            {/* Botão de deletar - corrigido */}
+                            {}
                             <button
                               onClick={() => handleDeleteClick(transaction)}
                               className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 dark:hover:text-red-400 rounded-lg transition-all duration-200 opacity-70 hover:opacity-100"
@@ -445,6 +465,28 @@ function FinanceDashboard() {
         onConfirm={handleConfirmDelete}
         transaction={transactionToDelete}
       />
+
+      {isChooseModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl">
+            <ChooseTransactionType onChoose={handleChoose} />
+          </div>
+        </div>
+      )}
+
+      <ReceiptUploadModal
+        isOpen={isReceiptModalOpen}
+        onClose={() => setIsReceiptModalOpen(false)}
+        onComplete={handleReceiptComplete}
+      />
+
+      {isNewTransactionModalOpen && (
+        <NewTransactionDialog
+          isOpen={isNewTransactionModalOpen}
+          onClose={() => setIsNewTransactionModalOpen(false)}
+          initialAmount={initialAmount}
+        />
+      )}
     </div>
   );
 }
