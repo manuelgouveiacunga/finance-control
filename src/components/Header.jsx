@@ -34,7 +34,7 @@ const Header = () => {
         <nav className="hidden md:flex gap-8 text-sm font-medium text-white">
           <Link to="/dashboard" className="hover:text-blue-400 transition">Início</Link>
           <Link to="/reports" className="hover:text-blue-400 transition">Relatórios</Link>
-          <Link to="/goals" className="hover:text-blue-400 transition">Objectivos Financeiros</Link>
+          <Link to="/goals" className="hover:text-blue-400 transition">Metas Financeiras</Link>
         </nav>
         <button
           className="md:hidden text-white focus:outline-none"
@@ -51,7 +51,7 @@ const Header = () => {
           <nav className="flex flex-col gap-3 text-sm font-medium text-white">
             <Link to="/dashboard" className="hover:text-blue-400 transition">Início</Link>
             <Link to="/reports" className="hover:text-blue-400 transition">Relatórios</Link>
-            <Link to="/goals" className="hover:text-blue-400 transition">Objectivos Financeiros</Link>
+            <Link to="/goals" className="hover:text-blue-400 transition">Metas Financeiras</Link>
           </nav>
         </div>
       )}
