@@ -1,14 +1,12 @@
-import { useTransactions } from './context/TransactionContext';
-import { useTheme } from './context/ThemeContext';
 import { useAuth } from './context/AuthContext';
 import FinanceDashboard from './pages/FinanceDashboard';
 import AuthPage from './pages/AuthPage';
 import ReportsPage from './pages/ReportsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import GoalsPage from './pages/GoalsPage'; 
 import LoadingSpinner from './components/LoadingSpinner';
 import MainLayout from './components/MainLayout';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth();
@@ -21,7 +19,6 @@ function ProtectedRoute({ children }) {
 }
 
 const AnalyticsPage = () => <h1>Análises</h1>;
-const GoalsPage = () => <h1>Objectivos financeiros</h1>;
 
 const router = createBrowserRouter([
   {
@@ -67,7 +64,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <MainLayout>
-          <GoalsPage />
+            <GoalsPage />
         </MainLayout>
       </ProtectedRoute>
     )

@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { TransactionProvider } from './context/TransactionContext'
+import { GoalsProvider } from './context/GoalsContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ToastProvider>
         <AuthProvider>
           <TransactionProvider>
-            <App />
+            <GoalsProvider>
+              <App />
+            </GoalsProvider>
           </TransactionProvider>
         </AuthProvider>
       </ToastProvider>
