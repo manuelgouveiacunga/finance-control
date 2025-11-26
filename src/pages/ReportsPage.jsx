@@ -174,7 +174,7 @@ function ReportsPage() {
 
   const generatePDFData = () => {
     return {
-      title: 'Relatório Financeiro - KitandiHub',
+      title: 'Relatório Financeiro - KitadiHub',
       generatedAt: format(new Date(), 'dd/MM/yyyy HH:mm', { locale: ptBR }),
       user: currentUser?.name || currentUser?.email,
       period: getPeriodText(),
