@@ -174,7 +174,7 @@ function ReportsPage() {
 
   const generatePDFData = () => {
     return {
-      title: 'Relatório Financeiro',
+      title: 'Relatório Financeiro - KitandiHub',
       generatedAt: format(new Date(), 'dd/MM/yyyy HH:mm', { locale: ptBR }),
       user: currentUser?.name || currentUser?.email,
       period: getPeriodText(),
@@ -326,7 +326,7 @@ function ReportsPage() {
       
       pdf.setFontSize(8);
       pdf.setTextColor(156, 163, 175);
-      pdf.text('Relatório gerado pelo Sistema de Controlo Financeiro', pageWidth / 2, pageHeight - 10, { align: 'center' });
+      pdf.text('Relatório gerado pela KitadiHub - Controlo Financeiro', pageWidth / 2, pageHeight - 10, { align: 'center' });
       
       const fileName = `relatorio-financeiro-${format(new Date(), 'yyyy-MM-dd-HHmm')}.pdf`;
       pdf.save(fileName);
@@ -543,7 +543,7 @@ function ReportsPage() {
 
                 {/* Footer */}
                 <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-600 dark:text-gray-400">
-                  Relatório gerado pelo Sistema de Controlo Financeiro
+                  Relatório gerado pela KitadiHub - Controlo Financeiro
                 </div>
               </div>
             </div>
