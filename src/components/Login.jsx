@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = ({ onSwitchToRegister, onLogin }) => {
   const [email, setEmail] = useState('');
@@ -180,12 +181,9 @@ const Login = ({ onSwitchToRegister, onLogin }) => {
               </div>
 
               <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Esqueceu sua senha?
-                </a>
+               <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+                  Esqueceu a senha?
+                </Link>
               </div>
             </div>
 

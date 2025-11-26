@@ -7,6 +7,9 @@ import GoalsPage from './pages/GoalsPage';
 import LoadingSpinner from './components/LoadingSpinner';
 import MainLayout from './components/MainLayout';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+
 
 function ProtectedRoute({ children }) {
   const { currentUser, loading } = useAuth();
@@ -23,11 +26,11 @@ const AnalyticsPage = () => <h1>Análises</h1>;
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/auth" replace />
+    element: <Navigate to="/auth" replace />,
   },
   {
     path: "/auth",
-    element: <AuthPage />
+    element: <AuthPage />,
   },
   {
     path: "/dashboard",
@@ -37,7 +40,7 @@ const router = createBrowserRouter([
           <FinanceDashboard />
         </MainLayout>
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/reports",
@@ -47,7 +50,7 @@ const router = createBrowserRouter([
           <ReportsPage />
         </MainLayout>
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/analytics",
@@ -57,22 +60,30 @@ const router = createBrowserRouter([
           <AnalyticsPage />
         </MainLayout>
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/goals",
     element: (
       <ProtectedRoute>
         <MainLayout>
-            <GoalsPage />
+          <GoalsPage />
         </MainLayout>
       </ProtectedRoute>
-    )
+    ),
+  },
+   {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
   },
   {
     path: "*",
-    element: <NotFoundPage />
-  }
+    element: <NotFoundPage />,
+  },
 ]);
 
 function App() {

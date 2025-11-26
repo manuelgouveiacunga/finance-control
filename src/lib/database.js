@@ -17,15 +17,36 @@ const initDB = async () => {
 
 export const addUser = async (user) => {
   const db = await initDB();
-  return db.put(USERS_STORE, user);
+  return db.put(USERS_STORE, { 
+    ...user, 
+    email: user.email.toLowerCase() 
+  });
 };
 
 export const getUser = async (email) => {
   const db = await initDB();
-  return db.get(USERS_STORE, email);
+  return db.get(USERS_STORE, email.toLowerCase());
 };
 
 export const getAllUsers = async () => {
   const db = await initDB();
   return db.getAll(USERS_STORE);
 };
+
+export const updateUser = async (email, updates =  {}) => {
+  const db = await initDB();
+  const tx = db.transaction(USERS_STORE, 'readwrite');
+  const store = tx.objectStore(USERS_STORE);
+
+  const existing = await store.get(email.toLowerCase());
+  if(!existing) {
+    await tx.done;
+    return null;
+  }
+
+  const updated = { ...existing, ...updates };
+  await store.put({ ...updated, email: updated.email.toLowerCase() });
+  await store.put(updated);
+  await tx.done;
+  return updated;
+}; 

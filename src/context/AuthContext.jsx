@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { getUser, addUser } from '../lib/database';
+import { getUser, addUser, updateUser } from '../lib/database';
+import { createResetToken, verifyResetToken, consumeResetToken } from '../utils/passwordReset';
 
 const AuthContext = createContext();
 
@@ -78,12 +79,57 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+    
+  const requestPasswordReset = async (email) => {
+    try {
+      const user = await getUser(email);
+      if (!user) {
+        return { success: false, message: 'Nenhum usuário encontrado com esse email.' };
+      }
+
+      const token = createResetToken(email);
+      return { success: true, token };
+    } catch (err) {
+      console.error('requestPasswordReset error', err);
+      return { success: false, message: 'Erro ao processar o pedido.' };
+    }
+  };
+
+  
+  const resetPasswordWithToken = async (token, newPassword) => {
+    try {
+      const check = verifyResetToken(token);
+      if (!check.valid) {
+        return { success: false, message: check.reason || 'Token inválido' };
+      }
+      const email = consumeResetToken(token);
+      if (!email) {
+        return { success: false, message: 'Token inválido ou já usado.' };
+      }
+
+      const updated = await updateUser(email, { password: newPassword });
+      if (!updated) {
+        return { success: false, message: 'Usuário não encontrado.' };
+      }
+      if (currentUser && currentUser.email === email) {
+        setCurrentUser(updated);
+      }
+      return { success: true };
+    } catch (err) {
+      console.error('resetPasswordWithToken error', err);
+      return { success: false, message: 'Erro ao resetar senha.' };
+    }
+  };
+
+
   const value = {
     currentUser,
     login,
     logout,
     register,
-    loading
+    loading,
+    requestPasswordReset,
+    resetPasswordWithToken,
   };
 
   return (
