@@ -13,12 +13,13 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const closeMenu = () => setIsMenuOpen(false)
+
   return (
     <header
-      className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300
-        ${isScrolled ? 'bg-gray-900 shadow-md' : 'bg-transparent'}
-      `}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-gray-900 shadow-md' : 'bg-transparent'
+      }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 py-4">
         <div className="flex items-center gap-3">
@@ -31,13 +32,15 @@ const Header = () => {
             KitadiHub <span className="text-blue-400">• Controlo Financeiro</span>
           </h1>
         </div>
+
         <nav className="hidden md:flex gap-8 text-sm font-medium text-white">
           <Link to="/dashboard" className="hover:text-blue-400 transition">Início</Link>
           <Link to="/reports" className="hover:text-blue-400 transition">Relatórios</Link>
           <Link to="/goals" className="hover:text-blue-400 transition">Metas Financeiras</Link>
         </nav>
+
         <button
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-white"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,15 +49,35 @@ const Header = () => {
           </svg>
         </button>
       </div>
-      {isMenuOpen && (
-        <div className="md:hidden mt-3 px-4 pb-4 bg-gray-900 shadow-md">
-          <nav className="flex flex-col gap-3 text-sm font-medium text-white">
-            <Link to="/dashboard" className="hover:text-blue-400 transition">Início</Link>
-            <Link to="/reports" className="hover:text-blue-400 transition">Relatórios</Link>
-            <Link to="/goals" className="hover:text-blue-400 transition">Metas Financeiras</Link>
-          </nav>
-        </div>
-      )}
+      <div
+        className={`md:hidden px-4 overflow-hidden transition-all duration-300 ${
+          isMenuOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+        } bg-gray-900 shadow-md`}
+      >
+        <nav className="flex flex-col gap-3 text-sm font-medium text-white py-3">
+          <Link
+            to="/dashboard"
+            className="hover:text-blue-400 transition"
+            onClick={closeMenu}
+          >
+            Início
+          </Link>
+          <Link
+            to="/reports"
+            className="hover:text-blue-400 transition"
+            onClick={closeMenu}
+          >
+            Relatórios
+          </Link>
+          <Link
+            to="/goals"
+            className="hover:text-blue-400 transition"
+            onClick={closeMenu}
+          >
+            Metas Financeiras
+          </Link>
+        </nav>
+      </div>
     </header>
   )
 }
