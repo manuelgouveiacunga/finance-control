@@ -55,7 +55,7 @@ const CardDescription = ({
 }
 
 const CardContent = ({
-  // eslint-disable-next-line react/prop-types
+  
   className,
   ...props
 }) => {

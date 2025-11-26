@@ -1,37 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Register = ({ onSwitchToLogin, onRegister }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!name.trim()) {
-      newErrors.name = 'Nome é obrigatório';
+      newErrors.name = "Nome é obrigatório";
     }
-    
+
     if (!email.trim()) {
-      newErrors.email = 'Email é obrigatório';
+      newErrors.email = "Email é obrigatório";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = "Email inválido";
     }
-    
+
     if (!password.trim()) {
-      newErrors.password = 'Senha é obrigatória';
+      newErrors.password = "Senha é obrigatória";
     } else if (password.length < 6) {
-      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+      newErrors.password = "Senha deve ter pelo menos 6 caracteres";
     }
-    
+
     if (!confirmPassword.trim()) {
-      newErrors.confirmPassword = 'Confirmação de senha é obrigatória';
+      newErrors.confirmPassword = "Confirmação de senha é obrigatória";
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'As senhas não coincidem';
+      newErrors.confirmPassword = "As senhas não coincidem";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -41,7 +43,7 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
     if (validateForm()) {
       const result = await onRegister(name, email, password);
       if (!result.success) {
-        setErrors(prev => ({ ...prev, general: result.message }));
+        setErrors((prev) => ({ ...prev, general: result.message }));
       }
     }
   };
@@ -62,7 +64,10 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
           )}
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Nome completo
               </label>
               <input
@@ -71,14 +76,14 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
                 type="text"
                 required
                 className={`appearance-none relative block w-full px-3 py-2 border ${
-                  errors.name ? 'border-red-500' : 'border-gray-300'
+                  errors.name ? "border-red-500" : "border-gray-300"
                 } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Nome completo"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                   if (errors.name) {
-                    setErrors(prev => ({ ...prev, name: '' }));
+                    setErrors((prev) => ({ ...prev, name: "" }));
                   }
                 }}
               />
@@ -87,7 +92,10 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
               )}
             </div>
             <div>
-              <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email-address"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Endereço de e-mail
               </label>
               <input
@@ -97,14 +105,14 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
                 autoComplete="email"
                 required
                 className={`appearance-none relative block w-full px-3 py-2 border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
+                  errors.email ? "border-red-500" : "border-gray-300"
                 } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Endereço de e-mail"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                   if (errors.email) {
-                    setErrors(prev => ({ ...prev, email: '' }));
+                    setErrors((prev) => ({ ...prev, email: "" }));
                   }
                 }}
               />
@@ -112,56 +120,166 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
                 <p className="mt-1 text-sm text-red-600">{errors.email}</p>
               )}
             </div>
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Senha
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                className={`appearance-none relative block w-full px-3 py-2 border ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
-                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (errors.password) {
-                    setErrors(prev => ({ ...prev, password: '' }));
-                  }
-                }}
-              />
+
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  className={`appearance-none block w-full px-3 py-2 pr-10 border ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errors.password) {
+                      setErrors((prev) => ({ ...prev, password: "" }));
+                    }
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 012.223-3.592M6.59 6.59A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.953 9.953 0 01-2.29 3.61M3 3l18 18"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
               {errors.password && (
                 <p className="mt-1 text-sm text-red-600">{errors.password}</p>
               )}
             </div>
+
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Confirmar senha
               </label>
-              <input
-                id="confirm-password"
-                name="confirm-password"
-                type="password"
-                autoComplete="new-password"
-                required
-                className={`appearance-none relative block w-full px-3 py-2 border ${
-                  errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                placeholder="Confirmar senha"
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  if (errors.confirmPassword) {
-                    setErrors(prev => ({ ...prev, confirmPassword: '' }));
-                  }
-                }}
-              />
+
+              <div className="relative">
+                <input
+                  id="confirm-password"
+                  name="confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  className={`appearance-none block w-full px-3 py-2 pr-10 border ${
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  placeholder="Confirmar senha"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    if (errors.confirmPassword) {
+                      setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+                    }
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.522 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 012.223-3.592M6.59 6.59A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.953 9.953 0 01-2.29 3.61M3 3l18 18"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
           </div>
@@ -192,7 +310,7 @@ const Register = ({ onSwitchToLogin, onRegister }) => {
         </form>
         <div className="text-sm text-center">
           <p className="text-gray-600">
-            Já tem uma conta?{' '}
+            Já tem uma conta?{" "}
             <button
               onClick={onSwitchToLogin}
               className="font-medium text-indigo-600 hover:text-indigo-500"
