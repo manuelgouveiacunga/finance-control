@@ -174,7 +174,7 @@ function ReportsPage() {
 
   const generatePDFData = () => {
     return {
-      title: 'Relatório Financeiro',
+      title: 'Relatório Financeiro - KitadiHub',
       generatedAt: format(new Date(), 'dd/MM/yyyy HH:mm', { locale: ptBR }),
       user: currentUser?.name || currentUser?.email,
       period: getPeriodText(),
@@ -326,7 +326,7 @@ function ReportsPage() {
       
       pdf.setFontSize(8);
       pdf.setTextColor(156, 163, 175);
-      pdf.text('Relatório gerado pelo Sistema de Controlo Financeiro', pageWidth / 2, pageHeight - 10, { align: 'center' });
+      pdf.text('Relatório gerado pela KitadiHub - Controlo Financeiro', pageWidth / 2, pageHeight - 10, { align: 'center' });
       
       const fileName = `relatorio-financeiro-${format(new Date(), 'yyyy-MM-dd-HHmm')}.pdf`;
       pdf.save(fileName);
@@ -342,7 +342,7 @@ function ReportsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800 transition-all duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800 transition-all duration-300 pt-14">
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -543,7 +543,7 @@ function ReportsPage() {
 
                 {/* Footer */}
                 <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-600 dark:text-gray-400">
-                  Relatório gerado pelo Sistema de Controlo Financeiro
+                  Relatório gerado pela KitadiHub - Controlo Financeiro
                 </div>
               </div>
             </div>
