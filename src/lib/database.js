@@ -46,7 +46,6 @@ export const updateUser = async (email, updates =  {}) => {
 
   const updated = { ...existing, ...updates };
   await store.put({ ...updated, email: updated.email.toLowerCase() });
-  await store.put(updated);
   await tx.done;
   return updated;
-}; 
+};

@@ -7,7 +7,7 @@ const readStore = () => {
 };
 
 const writeStore = (list) => {
-    localStorage.getItem(STORAGE_KEY, JSON.stringify(list));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 };
 
 const genToken = () => {
@@ -18,7 +18,7 @@ const genToken = () => {
 
 export const createResetToken = (email) => {
   const token = genToken();
-  const expiresAt = Date.now() + RESET_TOKEN_TTL;
+  const expiresAt = Date.now() + RESET_TOKEN_EXPIRY;
   const tokens = readStore();
   tokens.push({ token, email, expiresAt });
   writeStore(tokens);

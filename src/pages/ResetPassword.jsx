@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -48,29 +49,47 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
-      <div className="max-w-md w-full bg-white p-6 rounded shadow">
-        <h2 className="text-lg font-semibold mb-4">Criar nova senha</h2>
+      <div className="max-w-md w-full bg-white p-6 rounded shadow relative">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-4 left-4 text-gray-600 hover:text-gray-900 transition"
+        >
+          <ArrowLeft size={22} />
+        </button>
+        <h2 className="text-lg font-semibold mb-4 text-gray-950 text-center">Criar nova senha</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="password"
-            placeholder="Nova senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirmar nova senha"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            required
-          />
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Nova senha
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Nova senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border px-3 py-2 rounded text-gray-700"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="confirm" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirmar nova senha
+            </label>
+            <input
+              id="confirm"
+              type="password"
+              placeholder="Confirmar nova senha"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="w-full border px-3 py-2 rounded text-gray-700"
+              required
+            />
+          </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded"
+            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition disabled:opacity-50"
           >
             {loading ? 'Atualizando...' : 'Atualizar senha'}
           </button>
