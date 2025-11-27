@@ -33,7 +33,7 @@ const ForgotPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
       <div className="relative max-w-md w-full bg-white p-6 rounded shadow">
 
-        {}
+        {/* Botão para voltar */}
         <button
           onClick={() => navigate(-1)}
           className="absolute top-4 left-4 text-gray-600 hover:text-gray-900 transition"
